@@ -16,7 +16,6 @@ Raises:
 """
 def find_path(grid: list[list[int]], start: tuple[int], end: tuple[int]) -> list[tuple[int]]:
     
-    
     ##############################
     #         CHECK GRID         #
     ##############################
@@ -24,7 +23,6 @@ def find_path(grid: list[list[int]], start: tuple[int], end: tuple[int]) -> list
     if not grid:
         return None
 
-    
     ##############################
     #     CHECK START AND END    #
     ##############################
@@ -37,19 +35,17 @@ def find_path(grid: list[list[int]], start: tuple[int], end: tuple[int]) -> list
     row, col = end
     if row not in range(0, allowable_max_row_pos) or col not in range(0, allowable_max_col_pos):
         raise IndexError("End coordinate is invalid")
-    
-    
+
     visited = set()
-    has_visited_target = False
     path = []
 
 
     """ Depth-first Search that adds coordinates to a path array
     """
-    def dfs(grid: list, i: int, j: int) -> None:
-        nonlocal visited, has_visited_target, path
+    def dfs(grid: list, i: int, j: int, obstacle = 1) -> None:
+        nonlocal visited, path
         
-        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or grid[i][j] == 1 or (i, j) in visited:
+        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or grid[i][j] == obstacle or (i, j) in visited:
             return False
         
         else:
