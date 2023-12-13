@@ -1,9 +1,42 @@
-def find_path(grid: list[list], start: tuple, end: tuple) -> list:
+from __future__ import annotations
+
+
+""" Trivial path finding algorithm using Depth-first Search.
+    
+Args:
+    grid: 2D array depicting a maze.
+    start: Starting coordinate.
+    end: Target coordinate.
+
+Returns:
+    Path of coordinates from start to end in grid.
+
+Raises:
+    IndexError: If params have invalid sizes relative to the grid.
+"""
+def find_path(grid: list[list[int]], start: tuple[int], end: tuple[int]) -> list[tuple[int]]:
+    # Validate grid
+    if not grid:
+        return None
+
+    # Validate start and end
+    allowable_max_row_pos = len(grid)
+    allowable_max_col_pos = len(grid[0])
+    row, col = start
+    if row not in range(0, allowable_max_row_pos) or col not in range(0, allowable_max_col_pos):
+        raise IndexError("Start coordinate is invalid.")
+    row, col = end
+    if row not in range(0, allowable_max_row_pos) or col not in range(0, allowable_max_col_pos):
+        raise IndexError("End coordinate is invalid")
+    
     visited = set()
     has_visited_target = False
     path = []
     
-    def dfs(grid, i, j):
+
+    """ Depth-first Search that adds coordinates to a path array
+    """
+    def dfs(grid: list, i: int, j: int) -> None:
         nonlocal visited, has_visited_target, path
         
         if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or grid[i][j] == 1 or (i, j) in visited:
@@ -26,45 +59,3 @@ def find_path(grid: list[list], start: tuple, end: tuple) -> list:
     dfs(grid, row, col)
 
     return path[::-1]
-
-
-##############################
-#          TESTING           #
-##############################
-
-grid = [
-    [0,1,0,1],
-    [0,1,0,1],
-    [0,1,0,1],
-    [0,0,0,0],
-    [0,1,0,1],
-    [0,1,0,1],
-    [0,1,0,1],
-    [0,0,0,0],
-    [0,1,0,1],
-    [0,1,0,1],
-    [0,1,0,1],
-    [0,0,0,0],
-]
-
-##############################
-#           PARAMS           #
-##############################
-
-start = (0, 0)
-end = (len(grid) - 1,len(grid[0]) - 1)
-
-path = find_path(grid, start, end)
-print("path to take:", path)
-print("illustrated with grid")
-for i, j in path:
-    grid[i][j] = 2
-
-# Print grid with format
-
-for i in range(len(grid)):
-    for j in range(len(grid[0])):
-        print(grid[i][j], end=', ')
-    print()
-print()
-        
