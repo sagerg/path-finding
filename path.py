@@ -15,11 +15,20 @@ Raises:
     IndexError: If params have invalid sizes relative to the grid.
 """
 def find_path(grid: list[list[int]], start: tuple[int], end: tuple[int]) -> list[tuple[int]]:
-    # Validate grid
+    
+    
+    ##############################
+    #         CHECK GRID         #
+    ##############################
+
     if not grid:
         return None
 
-    # Validate start and end
+    
+    ##############################
+    #     CHECK START AND END    #
+    ##############################
+
     allowable_max_row_pos = len(grid)
     allowable_max_col_pos = len(grid[0])
     row, col = start
@@ -29,10 +38,11 @@ def find_path(grid: list[list[int]], start: tuple[int], end: tuple[int]) -> list
     if row not in range(0, allowable_max_row_pos) or col not in range(0, allowable_max_col_pos):
         raise IndexError("End coordinate is invalid")
     
+    
     visited = set()
     has_visited_target = False
     path = []
-    
+
 
     """ Depth-first Search that adds coordinates to a path array
     """
@@ -40,20 +50,22 @@ def find_path(grid: list[list[int]], start: tuple[int], end: tuple[int]) -> list
         nonlocal visited, has_visited_target, path
         
         if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or grid[i][j] == 1 or (i, j) in visited:
-            return None
+            return False
         
         else:
             visited.add((i,j))
-            dfs(grid, i+1, j)
-            dfs(grid, i-1, j)
-            dfs(grid, i, j+1)
-            dfs(grid, i, j-1)
+            
+            if dfs(grid, i+1, j) or dfs(grid, i-1, j) or dfs(grid, i, j+1) or dfs(grid, i, j-1):
+                path += [(i,j)]
+                return True
             
             if (i,j) == end:
-                has_visited_target = True
-
-            if has_visited_target:
                 path += [(i,j)]
+                return True
+            
+            else:
+                return False
+                
     
     row, col = start
     dfs(grid, row, col)

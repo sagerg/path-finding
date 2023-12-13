@@ -1,6 +1,8 @@
 from path import find_path
 
 
+""" Driver Method
+"""
 def main():
     ##############################
     #          TESTING           #
@@ -14,8 +16,8 @@ def main():
         [0,1,0,1,0],
         [0,1,1,1,0],
         [0,1,0,0,0],
-        [0,1,0,1,1],
         [0,1,0,1,0],
+        [0,1,0,1,1],
         [0,1,0,0,0],
         [0,1,0,1,0],
         [0,0,1,1,0],
@@ -30,7 +32,7 @@ def main():
 
     ### Execute DFS
     path = find_path(grid, start, end)
-    
+
     ### Original Grid
     print("Original Grid")
     if path != []:
@@ -40,7 +42,7 @@ def main():
             print()
         print()
     
-    ### Fill in Grid if there is a Path
+    ### Fill in Grid with Path taken if there is a Path
     for i, j in path:
         grid[i][j] = 2
 
