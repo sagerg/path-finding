@@ -15,7 +15,6 @@ cell = 'c'
 unvisited = 'u'
 height = 11
 width = 27
-maze = []
 
 
 ## Functions
@@ -32,7 +31,7 @@ def printMaze(maze):
 		print('\n')
 
 # Find number of surrounding cells
-def surroundingCells(rand_wall):
+def surroundingCells(maze, rand_wall):
 	s_cells = 0
 	if (maze[rand_wall[0]-1][rand_wall[1]] == 'c'):
 		s_cells += 1
@@ -47,7 +46,7 @@ def surroundingCells(rand_wall):
 
 
 ## Main code
-def create_maze():
+def create_maze(maze):
 
     # Initialize colorama
     init()
@@ -93,7 +92,7 @@ def create_maze():
         if (rand_wall[1] != 0):
             if (maze[rand_wall[0]][rand_wall[1]-1] == 'u' and maze[rand_wall[0]][rand_wall[1]+1] == 'c'):
                 # Find the number of surrounding cells
-                s_cells = surroundingCells(rand_wall)
+                s_cells = surroundingCells(maze, rand_wall)
 
                 if (s_cells < 2):
                     # Denote the new path
@@ -134,7 +133,7 @@ def create_maze():
         if (rand_wall[0] != 0):
             if (maze[rand_wall[0]-1][rand_wall[1]] == 'u' and maze[rand_wall[0]+1][rand_wall[1]] == 'c'):
 
-                s_cells = surroundingCells(rand_wall)
+                s_cells = surroundingCells(maze, rand_wall)
                 if (s_cells < 2):
                     # Denote the new path
                     maze[rand_wall[0]][rand_wall[1]] = 'c'
@@ -172,7 +171,7 @@ def create_maze():
         if (rand_wall[0] != height-1):
             if (maze[rand_wall[0]+1][rand_wall[1]] == 'u' and maze[rand_wall[0]-1][rand_wall[1]] == 'c'):
 
-                s_cells = surroundingCells(rand_wall)
+                s_cells = surroundingCells(maze, rand_wall)
                 if (s_cells < 2):
                     # Denote the new path
                     maze[rand_wall[0]][rand_wall[1]] = 'c'
@@ -206,7 +205,7 @@ def create_maze():
         if (rand_wall[1] != width-1):
             if (maze[rand_wall[0]][rand_wall[1]+1] == 'u' and maze[rand_wall[0]][rand_wall[1]-1] == 'c'):
 
-                s_cells = surroundingCells(rand_wall)
+                s_cells = surroundingCells(maze, rand_wall)
                 if (s_cells < 2):
                     # Denote the new path
                     maze[rand_wall[0]][rand_wall[1]] = 'c'
@@ -266,5 +265,6 @@ def create_maze():
 
 
 def create_and_export_a_maze():
-    generated_2d_maze = create_maze()
+    maze = []
+    generated_2d_maze = create_maze(maze)
     return generated_2d_maze
