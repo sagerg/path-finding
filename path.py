@@ -7,6 +7,7 @@ Args:
     grid: 2D array depicting a maze.
     start: Starting coordinate.
     end: Target coordinate.
+    wall: Walls to avoid.
 
 Returns:
     Path of coordinates from start to end in grid.
@@ -14,7 +15,7 @@ Returns:
 Raises:
     IndexError: If params have invalid sizes relative to the grid.
 """
-def find_path(grid: list[list[int]], start: tuple[int], end: tuple[int]) -> list[tuple[int]]:
+def find_path(grid: list[list[int]], start: tuple[int], end: tuple[int], wall = 1) -> list[tuple[int]]:
     
     ##############################
     #         CHECK GRID         #
@@ -41,17 +42,18 @@ def find_path(grid: list[list[int]], start: tuple[int], end: tuple[int]) -> list
 
 
     """ Depth-first Search that adds coordinates to a path array
+        By default it assumes that we have a grid of integers and '1' is the obstacle to avoid
     """
-    def dfs(grid: list, i: int, j: int, obstacle = 1) -> None:
+    def dfs(grid: list, i: int, j: int, wall) -> bool:
         nonlocal visited, path
         
-        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or grid[i][j] == obstacle or (i, j) in visited:
+        if i < 0 or i >= len(grid) or j < 0 or j >= len(grid[0]) or grid[i][j] == wall or (i, j) in visited:
             return False
         
         else:
             visited.add((i,j))
             
-            if dfs(grid, i+1, j) or dfs(grid, i-1, j) or dfs(grid, i, j+1) or dfs(grid, i, j-1):
+            if dfs(grid, i+1, j, wall) or dfs(grid, i-1, j, wall) or dfs(grid, i, j+1, wall) or dfs(grid, i, j-1, wall):
                 path += [(i,j)]
                 return True
             
@@ -61,9 +63,9 @@ def find_path(grid: list[list[int]], start: tuple[int], end: tuple[int]) -> list
             
             else:
                 return False
-                
+
     
     row, col = start
-    dfs(grid, row, col)
+    dfs(grid, row, col, wall)
 
     return path[::-1]
