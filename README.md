@@ -1,1 +1,0 @@
-Finds a path using DFS from start to end in a 2D list of size N*M where 0 is an empty space and 1 is an obstacle. In the example provided, start is (0, 0) and end is (N, M) but this works for any start and end positions.
